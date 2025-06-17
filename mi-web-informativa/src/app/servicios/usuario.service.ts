@@ -13,5 +13,23 @@ export class UsuarioService {
   obtenerUsuarios(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
+
+  agregarUsuario(usuario: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, usuario);
+  }
+
+  actualizarUsuario(usuario: any): Observable<any> {
+    const url = `${this.apiUrl}/${usuario.id_usuario}`;
+    return this.http.put<any>(url, usuario);
+  }
+
+  eliminarUsuario(id: number): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete<any>(url);
+  }
+  // usuario.service.ts
   
+  iniciarSesion(usuario: string, contrasena: string): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/login`, { usuario, contrasena });
+  }
 }

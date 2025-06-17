@@ -1,10 +1,15 @@
+// src/app/login/login.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../servicios/usuario.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule, MatSnackBarModule],
   template: `
     <section class="login-container">
       <form (submit)="onSubmit($event)" class="login-form">
@@ -13,12 +18,12 @@ import { Router } from '@angular/router';
 
         <label>
           Usuario:
-          <input type="text" name="usuario" required />
+          <input type="text" name="usuario" [(ngModel)]="usuario" required />
         </label>
 
         <label>
           Contraseña:
-          <input type="password" name="contrasena" required />
+          <input type="password" name="contrasena" [(ngModel)]="contrasena" required />
         </label>
 
         <div class="buttons">
@@ -32,7 +37,7 @@ import { Router } from '@angular/router';
   styles: [`
     .login-container {
       height: 100vh;
-      background-image: url('/img/Fondo.jpg'); /* Cambia por el path correcto */
+      background-image: url('/img/Fondo.jpg');
       background-size: cover;
       background-position: center;
       display: flex;
@@ -40,13 +45,15 @@ import { Router } from '@angular/router';
       align-items: center;
     }
 
-    h2{
+    h2 {
       text-align: center;
-      
     }
+
     .logo {
-        height: 150px;
-                 }
+      height: 150px;
+      display: block;
+      margin: 0 auto;
+    }
 
     .login-form {
       background-color: rgba(255, 255, 255, 0.78);
@@ -109,20 +116,46 @@ import { Router } from '@angular/router';
   `]
 })
 export class LoginComponent {
-  constructor(private router: Router) {}
+  usuario: string = '';
+  contrasena: string = '';
+
+  constructor(private usuarioService: UsuarioService, private router: Router, private snackBar: MatSnackBar) {}
 
   onSubmit(event: Event) {
-    event.preventDefault();
-    // Aquí validas usuario y contraseña (puedes agregar lógica)
-    alert('Intentando iniciar sesión...');
-  }
+  event.preventDefault();
+
+  this.usuarioService.iniciarSesion(this.usuario, this.contrasena).subscribe({
+    next: (res) => {
+      if (res.success) {
+        this.snackBar.open(`Bienvenido, ${res.user.nombre}`, '✕', {
+  duration: 4000,
+  horizontalPosition: 'right',
+  verticalPosition: 'top',
+  panelClass: ['custom-snackbar', 'success-snackbar']
+});
+
+        this.router.navigate(['/dashboard/diseno']);
+      } else {
+        this.snackBar.open('Credenciales inválidas', '  Cerrar', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    },
+    error: () => {
+      this.snackBar.open('Error al iniciar sesión', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
+      });
+    }
+  });
+}
 
   onForgotPassword() {
     alert('Función para recuperar contraseña pendiente');
-    // Aquí podrías redirigir o mostrar un modal
   }
 
   onCancel() {
-    this.router.navigate(['/inicio']);
+    this.router.navigate(['/inicio']); // Cambia a tu ruta de inicio
   }
 }

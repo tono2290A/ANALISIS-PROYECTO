@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
       <div class="overlay">
         <div class="text">
           <h1>Bienvenido a</h1>
-          <img src="/img/logo.png" alt="Logo Roy" class="logo" />
+          <img src="logo.png" alt="Logo Roy" class="logo" />
           <p>Calzado de calidad hecho con pasión.</p>
         </div>
       </div>

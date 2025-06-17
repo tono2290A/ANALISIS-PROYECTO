@@ -95,10 +95,25 @@ import { CommonModule } from '@angular/common';
     .content {
       flex-grow: 1;
       padding: 2rem;
-      background: #f4f4f9;
+      
+        background-size: cover;
+      background-position: center;
       overflow-y: auto;
+      
     }
 
+    .content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('/img/Fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3; /* Cambia esto según la opacidad deseada */
+  z-index: -1;
+  pointer-events: none; /* Permite hacer clic en el contenido */
+}
+ 
     @media (max-width: 768px) {
       .dashboard-layout {
         flex-direction: column;

@@ -3,4 +3,32 @@
 body {
   font-family: 'Poppins', sans-serif;
 
+  .custom-snackbar {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 15px;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
 }
+
+.success-snackbar {
+  background-color: #2196f3; /* Azul Material */
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #e53935; /* Rojo */
+  color: white;
+}
+
+.warn-snackbar {
+  background-color: #ff9800; /* Naranja */
+  color: black;
+}
+
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
